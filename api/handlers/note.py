@@ -1,5 +1,6 @@
 from api import app, multi_auth, request
 from api.models.note import NoteModel
+from api.models.user import UserModel
 from api.schemas.note import note_schema, notes_schema
 from utility.helpers import get_object_or_404
 
@@ -7,11 +8,16 @@ from utility.helpers import get_object_or_404
 @app.route("/notes/<int:note_id>", methods=["GET"])
 @multi_auth.login_required
 def get_note_by_id(note_id):
-    # TODO: авторизованный пользователь может получить только свою заметку или публичную заметку других пользователей
+    # TODO(complete): авторизованный пользователь может получить только свою заметку или публичную заметку других пользователей
     #  Попытка получить чужую приватную заметку, возвращает ответ с кодом 403
     user = multi_auth.current_user()
     note = get_object_or_404(NoteModel, note_id)
-    return note_schema.dump(note), 200
+    notes = NoteModel.query.join(NoteModel.author). \
+        filter((UserModel.username == user.username) | (NoteModel.private == False)).all()
+    if note in notes:
+        return note_schema.dump(note), 200
+
+    return "...", 403
 
 
 @app.route("/notes", methods=["GET"])
