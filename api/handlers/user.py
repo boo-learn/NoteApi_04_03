@@ -29,7 +29,7 @@ def create_user():
 
 
 @app.route("/users/<int:user_id>", methods=["PUT"])
-@multi_auth.login_required(role="admin")
+# @multi_auth.login_required(role="admin")
 def edit_user(user_id):
     user_data = request.json
     user = get_object_or_404(UserModel, user_id)
