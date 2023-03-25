@@ -6,7 +6,7 @@ from flask_apispec import doc, marshal_with, use_kwargs
 
 
 @app.route("/users/<int:user_id>")
-@doc(description='Get user by id', tags=['Users'])
+@doc(summary='Get user by id', tags=['Users'])
 @marshal_with(UserSchema, code=200)
 def get_user_by_id(user_id):
     user = get_object_or_404(UserModel, user_id)
@@ -16,22 +16,23 @@ def get_user_by_id(user_id):
 
 
 @app.route("/users")
-@doc(description='Get all users', tags=['Users'])
+@doc(summary='Get all users', tags=['Users'])
+@marshal_with(UserSchema(many=True), code=200)
 def get_users():
     users = UserModel.query.all()
-    return users_schema.dump(users), 200
+    return users, 200
 
 
 @app.route("/users", methods=["POST"])
-@doc(description='Create new user', tags=['Users'])
+@doc(summary='Create new user', tags=['Users'])
+@marshal_with(UserSchema, code=200)
 @use_kwargs(UserRequestSchema, location='json')
 def create_user(**kwargs):
-    # user_data = request.json
     user = UserModel(**kwargs)
     # TODO: добавить обработчик на создание пользователя с неуникальным username.
     #  При попытке создать пользователя с существующим именем, возвращаем ответ с кодом 400
     user.save()
-    return user_schema.dump(user), 201
+    return user, 201
 
 
 @app.route("/users/<int:user_id>", methods=["PUT"])

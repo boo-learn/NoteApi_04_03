@@ -18,8 +18,8 @@ class UserRequestSchema(ma.SQLAlchemySchema):
     class Meta:
         model = UserModel
 
-    username = ma.Str()
-    password = ma.Str()
+    username = ma.Str(required=True)
+    password = ma.Str(required=True)
 
 
 user_schema = UserSchema()
