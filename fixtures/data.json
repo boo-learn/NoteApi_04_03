@@ -1,0 +1,66 @@
+{
+    "user_model": [
+        {
+            "id": 1,
+            "username": "new-name",
+            "password_hash": "$6$rounds=656000$uksXkx0fD/g7HdIk$eeiS.FzzkPomuLR4xWXY8WtlGilzjgZKt7E6NivRNhubwvl2jt9fiRCay0yxRtL9ZyV1bBDnScurJH8cgSO5M.",
+            "role": "simple_user"
+        },
+        {
+            "id": 2,
+            "username": "user-1",
+            "password_hash": "$6$rounds=656000$ovVfCftp16fbOJwV$/TjL/Pow.qD4MSvog.KVcmTTBZ63RNwIHPK6e6N/hi/MtNwcpbtEssu41nsP3o6m9JBoLADh78hjHt6ZzQVmS1",
+            "role": "simple_user"
+        },
+        {
+            "id": 3,
+            "username": "user-2",
+            "password_hash": "$6$rounds=656000$qHtfAJUHMoPxjDkz$f43W3ZCwRLpKPAYJON61Fg/lPLpLQm3va/E/.WF/SdH14/47RjWj4ErCNDG4BiubpZUdIpg49qfpRGvFPZQwt1",
+            "role": "simple_user"
+        },
+        {
+            "id": 4,
+            "username": "swagger-user",
+            "password_hash": "$6$rounds=656000$ZnNGJTgJCywttpw1$iNiX0BHMPOZhNWDjean9FpEr9GgoCukIM4bZYBm./oEqnb3qavopesZCj5Czoe3GRB/3wDmxQI0OADBwtqViu1",
+            "role": "simple_user"
+        },
+        {
+            "id": 5,
+            "username": "admin",
+            "password_hash": "$6$rounds=656000$kA/sKZRqNojjqQ.L$QEVQJMEhDeGbN9oKFSrosB0l70T7BU/LGnWSGLR0e6grVUFL7CgbjAy61RqsOawN87j1jLImo/dv/z4Ar0Ndb1",
+            "role": "simple_user"
+        }
+    ],
+    "note_model": [
+        {
+            "id": 1,
+            "author_id": 2,
+            "text": "Заметка-1 user-1",
+            "private": false
+        },
+        {
+            "id": 2,
+            "author_id": 2,
+            "text": "Заметка-2 user-1",
+            "private": true
+        },
+        {
+            "id": 3,
+            "author_id": 3,
+            "text": "Заметка-1 user-2",
+            "private": false
+        },
+        {
+            "id": 4,
+            "author_id": 3,
+            "text": "Заметка-2 user-2",
+            "private": true
+        },
+        {
+            "id": 5,
+            "author_id": 5,
+            "text": "Admin's quote-1",
+            "private": false
+        }
+    ]
+}
