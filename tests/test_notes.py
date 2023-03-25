@@ -14,7 +14,7 @@ def user():
 
 @pytest.fixture()
 def note(user):
-    note_data = {"author_id": user.id, "text": "Quote for testuser"}
+    note_data = {"author_id": user.id, "text": "Quote for testuser", "private": False}
     note = NoteModel(**note_data)
     note.save()
     return note

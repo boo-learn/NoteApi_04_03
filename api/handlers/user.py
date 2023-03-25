@@ -25,7 +25,7 @@ def get_users():
 
 @app.route("/users", methods=["POST"])
 @doc(summary='Create new user', tags=['Users'])
-@marshal_with(UserSchema, code=200)
+@marshal_with(UserSchema, code=201)
 @use_kwargs(UserRequestSchema, location='json')
 def create_user(**kwargs):
     user = UserModel(**kwargs)

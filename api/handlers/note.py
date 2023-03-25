@@ -39,7 +39,7 @@ def get_notes():
 @app.route("/notes", methods=["POST"])
 @doc(summary='Create new note', tags=['Notes'])
 @doc(security=[{"basicAuth": []}])
-@marshal_with(NoteSchema, code=200)
+@marshal_with(NoteSchema, code=201)
 @use_kwargs(NoteRequestSchema, location='json')
 @multi_auth.login_required
 def create_note(**kwargs):
