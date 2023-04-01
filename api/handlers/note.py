@@ -85,3 +85,19 @@ def delete_note(self, note_id):
     # TODO: Пользователь может удалять ТОЛЬКО свои заметки.
     #  Попытка удалить чужую заметку, возвращает ответ с кодом 403
     raise NotImplemented("Метод не реализован")
+
+
+# ?tag=<tag_name>
+@app.route("/notes/filter", methods=["GET"])
+@doc(summary='Get notes by tag name', tags=['Notes'])
+@doc(security=[{"basicAuth": []}])
+@use_kwargs({"tag": fields.Str()}, location='query')
+@marshal_with(NoteSchema(many=True), code=200)
+@multi_auth.login_required
+def get_notes_by_tag_name(**kwargs):
+    user = multi_auth.current_user()
+    tag_name = kwargs["tag"]
+    notes = NoteModel.query.join(NoteModel.tags).join(NoteModel.author)\
+        .filter(UserModel.id == user.id)\
+        .filter(TagModel.name == tag_name).all()
+    return notes, 200
