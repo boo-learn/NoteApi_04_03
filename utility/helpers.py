@@ -9,6 +9,6 @@ def not_found(e):
 
 def get_object_or_404(model: db.Model, object_id: int):
     object = model.query.get(object_id)
-    if object is None:
+    if object is None or (hasattr(object, "is_archive") and object.is_archive):
         abort(404, description=f"Author with id={object_id} not found")
     return object

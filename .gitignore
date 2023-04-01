@@ -8,3 +8,4 @@ tmp/
 *.pyc
 *.log
 *.pot
+.envrc

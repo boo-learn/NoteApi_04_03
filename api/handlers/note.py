@@ -34,7 +34,7 @@ def get_note_by_id(note_id):
 def get_notes():
     # TODO: авторизованный пользователь получает только свои заметки и публичные заметки других пользователей
     user = multi_auth.current_user()
-    notes = NoteModel.query.all()
+    notes = NoteModel.query.filter_by(is_archive=False)
     return notes, 200
 
 
@@ -80,11 +80,15 @@ def edit_note(note_id):
 
 
 @app.route("/notes/<int:note_id>", methods=["DELETE"])
+@doc(summary="Delete note", tags=['Notes'])
+@doc(security=[{"basicAuth": []}])
 @multi_auth.login_required
-def delete_note(self, note_id):
+def delete_note(note_id):
     # TODO: Пользователь может удалять ТОЛЬКО свои заметки.
     #  Попытка удалить чужую заметку, возвращает ответ с кодом 403
-    raise NotImplemented("Метод не реализован")
+    note = get_object_or_404(NoteModel, note_id)
+    note.delete()
+    return "", 204
 
 
 # ?tag=<tag_name>
