@@ -38,6 +38,14 @@ def get_notes():
     return notes, 200
 
 
+@app.route("/notes/public", methods=["GET"])
+@doc(summary='Get all public notes', tags=['Notes'])
+@marshal_with(NoteSchema(many=True), code=200)
+def get_notes():
+    notes = NoteModel.query.filter_by(private=False)
+    return notes, 200
+
+
 @app.route("/notes", methods=["POST"])
 @doc(summary='Create new note', tags=['Notes'])
 @doc(security=[{"basicAuth": []}])
@@ -101,8 +109,8 @@ def delete_note(note_id):
 def get_notes_by_tag_name(**kwargs):
     user = multi_auth.current_user()
     tag_name = kwargs["tag"]
-    notes = NoteModel.query.join(NoteModel.tags).join(NoteModel.author)\
-        .filter(UserModel.id == user.id)\
+    notes = NoteModel.query.join(NoteModel.tags).join(NoteModel.author) \
+        .filter(UserModel.id == user.id) \
         .filter(TagModel.name == tag_name).all()
     return notes, 200
 
