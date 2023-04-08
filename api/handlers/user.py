@@ -51,4 +51,6 @@ def delete_user(user_id):
     """
     Пользователь может удалять ТОЛЬКО свои заметки
     """
-    raise NotImplemented("Метод не реализован")
+    user = get_object_or_404(UserModel, user_id)
+    user.delete()
+    return "", 204

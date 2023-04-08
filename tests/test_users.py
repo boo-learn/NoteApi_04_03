@@ -60,7 +60,18 @@ def test_user_edit(client, user, auth_headers):
     assert data["username"] == user_edited_data["username"]
 
 
-@pytest.mark.skip(reason="test not implemented")
 def test_user_delete(client, user, auth_headers):
-    pass
-    # TODO: реализуйте тест на удаление пользователя и запустите его, убрав декоратор @pytest.mark.skip
+    user = UserModel.query.get(user.id)
+    assert user is not None
+    response = client.delete(f'/users/{user.id}',
+                             headers=auth_headers)
+    assert response.status_code == 204
+
+    user = UserModel.query.get(user.id)
+    assert user is None
+
+
+def test_user_delete_not_found(client, auth_headers):
+    response = client.delete(f'/users/10',
+                             headers=auth_headers)
+    assert response.status_code == 404

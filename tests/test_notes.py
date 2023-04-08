@@ -36,6 +36,24 @@ def note_admin(user_admin):
     return note
 
 
+@pytest.fixture()
+def notes(user_admin, user):
+    notes_data = [
+        {"author_id": user_admin.id, "text": "Note-1", "private": False},
+        {"author_id": user_admin.id, "text": "Note-2", "private": False},
+        {"author_id": user_admin.id, "text": "Note-3", "private": True},
+        {"author_id": user.id, "text": "Note-4", "private": True},
+        {"author_id": user.id, "text": "Note-5", "private": False},
+    ]
+    _notes = []
+    for note_data in notes_data:
+        note = NoteModel(**note_data)
+        note.save()
+        _notes.append(note)
+
+    return _notes
+
+
 def test_note_get_by_id(client, note, auth_headers):
     response = client.get('/notes/1', headers=auth_headers)
     assert response.status_code == 200
@@ -79,3 +97,12 @@ def test_note_edit(client, note_admin, auth_headers):
 def test_note_delete(client, auth_headers):
     pass
     # TODO: реализуйте тест на удаление заметки и запустите его, убрав декоратор @pytest.mark.skip
+
+
+def test_get_public_notes(client, notes):
+    response = client.get(f'/notes/public')
+    data = response.json
+    assert response.status_code == 200
+    assert len(data) == 3
+    assert data[0]["text"] == "Note-1"
+    assert data[1]["text"] == "Note-2"
