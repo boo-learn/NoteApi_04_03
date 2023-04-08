@@ -105,3 +105,17 @@ def get_notes_by_tag_name(**kwargs):
         .filter(UserModel.id == user.id)\
         .filter(TagModel.name == tag_name).all()
     return notes, 200
+
+
+@doc(summary='Change importance for note', tags=['Notes'])
+@app.route("/notes/<int:note_id>/change_importance", methods=["PUT"])
+@marshal_with(NoteSchema, code=200)
+# @multi_auth.login_required
+def change_importance(note_id):
+    # author = multi_auth.current_user()
+    note = get_object_or_404(NoteModel, note_id)
+    note.importance += 1
+    if note.importance > 3:
+        note.importance = 1
+    note.save()
+    return note, 200

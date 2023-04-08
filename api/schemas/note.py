@@ -17,6 +17,7 @@ class NoteSchema(ma.SQLAlchemySchema):
     is_archive = ma.auto_field()
     author = ma.Nested(UserSchema())
     tags = ma.Nested(TagSchema(many=True))
+    importance = ma.auto_field()
 
 
 class NoteRequestSchema(ma.SQLAlchemySchema):

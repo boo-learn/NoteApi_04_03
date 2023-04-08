@@ -19,6 +19,7 @@ class NoteModel(db.Model):
                            backref=db.backref('notes', lazy=True))
     is_archive = db.Column(db.Boolean(), server_default=expression.false(),
                            default=False, nullable=False)
+    importance = db.Column(db.Integer, nullable=False, server_default='1', default=1)
 
     def save(self):
         db.session.add(self)
