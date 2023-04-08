@@ -1,6 +1,10 @@
-from api import app, docs
+from api import app, docs, db
 from config import Config
 from api.handlers import auth, note, user, tag, file
+
+from api.models.note import NoteModel
+from api.models.user import UserModel
+from api.models.tag import TagModel
 
 # CRUD
 
@@ -29,6 +33,12 @@ docs.register(tag.create_tag)
 
 # UPLOAD
 docs.register(file.upload_file)
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'NoteModel': NoteModel, 'UserModel': UserModel, 'TagModel': TagModel}
+
 
 if __name__ == '__main__':
     app.run(debug=Config.DEBUG, port=Config.PORT)
