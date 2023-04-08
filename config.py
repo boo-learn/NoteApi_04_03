@@ -15,3 +15,4 @@ class Config:
     }
     UPLOAD_FOLDER_NAME = 'upload'
     UPLOAD_FOLDER = BASE_DIR / UPLOAD_FOLDER_NAME
+    LANGUAGES = ['en', 'ru']
