@@ -25,6 +25,10 @@ def get_note_by_id(note_id):
 
     return "...", 403
 
+# /notes
+# /notes?private=false
+# /notes?private=false&username=admin
+# /notes?private=false&username=user1
 
 @app.route("/notes", methods=["GET"])
 @doc(summary='Get all note', tags=['Notes'])
@@ -38,12 +42,24 @@ def get_notes():
     return notes, 200
 
 
-@app.route("/notes/public", methods=["GET"])
-@doc(summary='Get all public notes', tags=['Notes'])
-@marshal_with(NoteSchema(many=True), code=200)
-def get_notes():
-    notes = NoteModel.query.filter_by(private=False)
-    return notes, 200
+# @app.route("/notes/public", methods=["GET"])
+# @doc(summary='Get all public notes', tags=['Notes'])
+# @marshal_with(NoteSchema(many=True), code=200)
+# def get_public_notes():
+#     notes = NoteModel.query.filter_by(private=False)
+#     return notes, 200
+
+
+# @app.route("/notes/public/filter", methods=["GET"])
+# @doc(summary='Get all public notes by username', tags=['Notes'])
+# @use_kwargs({"username": fields.Str()}, location='query')
+# @marshal_with(NoteSchema(many=True), code=200)
+# def get_public_notes_by_username(**kwargs):
+#     username = kwargs["username"]
+#     notes = NoteModel.query.join(NoteModel.author) \
+#         .filter(UserModel.username == username) \
+#         .filter(NoteModel.private == False).all()
+#     return notes, 200
 
 
 @app.route("/notes", methods=["POST"])

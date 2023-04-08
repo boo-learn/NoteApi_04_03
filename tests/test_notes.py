@@ -106,3 +106,12 @@ def test_get_public_notes(client, notes):
     assert len(data) == 3
     assert data[0]["text"] == "Note-1"
     assert data[1]["text"] == "Note-2"
+
+
+def test_get_public_notes_by_username(client, notes):
+    response = client.get(f'/notes/public/filter?username=admin')
+    data = response.json
+    assert response.status_code == 200
+    assert len(data) == 2
+    assert data[0]["text"] == "Note-1"
+    assert data[1]["text"] == "Note-2"
