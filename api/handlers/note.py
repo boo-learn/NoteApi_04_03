@@ -32,13 +32,20 @@ def get_note_by_id(note_id):
 
 @app.route("/notes", methods=["GET"])
 @doc(summary='Get all note', tags=['Notes'])
-@doc(security=[{"basicAuth": []}])
+# @doc(security=[{"basicAuth": []}])
+@use_kwargs({"private": fields.Bool(), "username": fields.Str()}, location='query')
 @marshal_with(NoteSchema(many=True), code=200)
-@multi_auth.login_required
-def get_notes():
-    # TODO: авторизованный пользователь получает только свои заметки и публичные заметки других пользователей
-    user = multi_auth.current_user()
-    notes = NoteModel.query.filter_by(is_archive=False)
+# @multi_auth.login_required
+# TODO: не протестировано!
+def get_notes(**kwargs):
+    username = kwargs.get("username")
+    private = kwargs.get("private")
+    notes = NoteModel.query.join(NoteModel.author)
+    if private is not None:
+        notes = notes.filter_by(private=private)
+    if username is not None:
+        notes.filter(UserModel.username == username)
+    notes = notes.all()
     return notes, 200
 
 
