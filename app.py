@@ -1,6 +1,6 @@
 from api import app, docs
 from config import Config
-from api.handlers import auth, note, user, tag
+from api.handlers import auth, note, user, tag, file
 
 # CRUD
 
@@ -26,6 +26,9 @@ docs.register(note.delete_note)
 docs.register(tag.get_tag_by_id)
 docs.register(tag.get_tags)
 docs.register(tag.create_tag)
+
+# UPLOAD
+docs.register(file.upload_file)
 
 if __name__ == '__main__':
     app.run(debug=Config.DEBUG, port=Config.PORT)

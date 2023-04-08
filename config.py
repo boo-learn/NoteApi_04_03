@@ -13,3 +13,5 @@ class Config:
     RESTFUL_JSON = {
         'ensure_ascii': False,
     }
+    UPLOAD_FOLDER_NAME = 'upload'
+    UPLOAD_FOLDER = BASE_DIR / UPLOAD_FOLDER_NAME
